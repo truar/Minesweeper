@@ -1,8 +1,8 @@
-package com.zenikatas.dev.minesweeper;
+package com.zenikatas.dev.minesweeper.domain;
 
 import org.junit.jupiter.api.Test;
 
-import static com.zenikatas.dev.minesweeper.CellValue.*;
+import static com.zenikatas.dev.minesweeper.domain.CellValue.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MineSweeperTest {

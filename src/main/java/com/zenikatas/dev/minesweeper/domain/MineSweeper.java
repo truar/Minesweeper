@@ -1,4 +1,4 @@
-package com.zenikatas.dev.minesweeper;
+package com.zenikatas.dev.minesweeper.domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
