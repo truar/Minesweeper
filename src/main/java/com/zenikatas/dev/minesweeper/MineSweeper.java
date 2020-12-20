@@ -12,6 +12,10 @@ public class MineSweeper {
     public MineSweeper(String[][] grid) {
         this.grid = new Cell[grid.length][grid[0].length];
 
+        initializeGrid(grid);
+    }
+
+    private void initializeGrid(String[][] grid) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
                 this.grid[i][j] = new Cell(grid[i][j]);
@@ -20,7 +24,7 @@ public class MineSweeper {
     }
 
     public boolean isWon() {
-        return allCells()
+        return !isMineUncovered && allCells()
                 .allMatch(Cell::isUncovered);
     }
 
@@ -28,16 +32,24 @@ public class MineSweeper {
         return isMineUncovered || isWon();
     }
 
-    public Cell cellAt(int y, int x) {
-        return grid[y][x];
+    public Cell cellAt(int row, int col) {
+        return grid[row][col];
     }
 
-    public void uncoverCellAt(int y, int x) {
-        if (cellAt(y, x).isCovered()) {
-            uncoverAdjacentCells(y, x);
+    public void uncoverCellAt(int row, int col) {
+        if (cellAt(row, col).isCovered()) {
+            uncoverAdjacentCells(row, col);
         } else {
             isMineUncovered = true;
         }
+    }
+
+    public int rowsLength() {
+        return grid.length;
+    }
+
+    public int columnsLength() {
+        return grid[0].length;
     }
 
     private Stream<Cell> allCells() {
@@ -45,65 +57,57 @@ public class MineSweeper {
                 .flatMap(Arrays::stream);
     }
 
-    private void uncoverAdjacentCells(int y, int x) {
-        if (isCellOnTheEdge(y, x)) {
+    private void uncoverAdjacentCells(int row, int col) {
+        if (isCellOnTheEdge(row, col)) {
             return;
         }
-        if (cellAt(y, x).isUncovered()) {
+        if (cellAt(row, col).isUncovered()) {
             return;
         }
 
-        cellAt(y, x).updateValue(countNumberOfAdjacentMine(y, x));
+        cellAt(row, col).updateValue(countNumberOfAdjacentMine(row, col));
 
-        if (isAdjacentCellsContainAMine(y, x)) {
+        if (isAdjacentCellsContainAMine(row, col)) {
             return;
         }
-        uncoverAdjacentCells(y - 1, x - 1);
-        uncoverAdjacentCells(y - 1, x);
-        uncoverAdjacentCells(y - 1, x + 1);
-        uncoverAdjacentCells(y, x - 1);
-        uncoverAdjacentCells(y, x + 1);
-        uncoverAdjacentCells(y + 1, x - 1);
-        uncoverAdjacentCells(y + 1, x);
-        uncoverAdjacentCells(y + 1, x + 1);
+        uncoverAdjacentCells(row - 1, col - 1);
+        uncoverAdjacentCells(row - 1, col);
+        uncoverAdjacentCells(row - 1, col + 1);
+        uncoverAdjacentCells(row, col - 1);
+        uncoverAdjacentCells(row, col + 1);
+        uncoverAdjacentCells(row + 1, col - 1);
+        uncoverAdjacentCells(row + 1, col);
+        uncoverAdjacentCells(row + 1, col + 1);
     }
 
-    private int countNumberOfAdjacentMine(int y, int x) {
-        return (int) adjacentCells(y, x).stream()
+    private int countNumberOfAdjacentMine(int row, int col) {
+        return (int) adjacentCells(row, col).stream()
                 .filter(Cell::isAMine)
                 .count();
     }
 
-    private boolean isAdjacentCellsContainAMine(int y, int x) {
-        return adjacentCells(y, x).stream()
+    private boolean isAdjacentCellsContainAMine(int row, int col) {
+        return adjacentCells(row, col).stream()
                 .anyMatch(Cell::isAMine);
     }
 
-    private List<Cell> adjacentCells(int y, int x) {
+    private List<Cell> adjacentCells(int row, int col) {
         List<Cell> adjacentCells = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (isCellOnTheEdge(y + i, x + j)) {
+                if (isCellOnTheEdge(row + i, col + j)) {
                     continue;
                 }
-                adjacentCells.add(cellAt(y + i, x + j));
+                adjacentCells.add(cellAt(row + i, col + j));
             }
         }
         return adjacentCells;
     }
 
-    private boolean isCellOnTheEdge(int y, int x) {
-        return x < 0
-                || y < 0
-                || x >= getColumnsLength()
-                || y >= getRowsLength();
-    }
-
-    private int getRowsLength() {
-        return grid.length;
-    }
-
-    private int getColumnsLength() {
-        return grid[0].length;
+    private boolean isCellOnTheEdge(int row, int col) {
+        return col < 0
+                || row < 0
+                || col >= columnsLength()
+                || row >= rowsLength();
     }
 }

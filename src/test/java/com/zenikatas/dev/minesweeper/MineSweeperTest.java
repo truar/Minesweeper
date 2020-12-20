@@ -2,12 +2,13 @@ package com.zenikatas.dev.minesweeper;
 
 import org.junit.jupiter.api.Test;
 
+import static com.zenikatas.dev.minesweeper.CellValue.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MineSweeperTest {
 
     @Test
-    void win_a_game_with_a_single_empty_cell() {
+    void terminate_and_win_a_game_with_a_single_empty_cell() {
         String[][] grid = {{""}};
         MineSweeper mineSweeper = new MineSweeper(grid);
 
@@ -15,7 +16,7 @@ public class MineSweeperTest {
 
         assertThat(mineSweeper.isTerminated()).isEqualTo(true);
         assertThat(mineSweeper.isWon()).isEqualTo(true);
-        assertThat(mineSweeper.cellAt(0, 0).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(0, 0).value()).isEqualTo(MINE_ADJACENT_0);
     }
 
     @Test
@@ -29,16 +30,15 @@ public class MineSweeperTest {
 
         mineSweeper.uncoverCellAt(1, 1);
 
-        assertThat(mineSweeper.isWon()).isEqualTo(true);
-        assertThat(mineSweeper.cellAt(0, 0).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(0, 1).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(0, 2).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(1, 0).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(1, 2).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(2, 0).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(2, 1).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(2, 2).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(0, 0).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(0, 1).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(0, 2).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(1, 0).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(1, 2).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(2, 0).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(2, 1).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(2, 2).value()).isEqualTo(MINE_ADJACENT_0);
     }
 
     @Test
@@ -52,19 +52,18 @@ public class MineSweeperTest {
 
         mineSweeper.uncoverCellAt(1, 1);
 
-        assertThat(mineSweeper.isWon()).isEqualTo(true);
-        assertThat(mineSweeper.cellAt(0, 0).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(0, 1).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(0, 2).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(0, 3).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(1, 0).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(1, 2).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(1, 3).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(2, 0).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(2, 1).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(2, 2).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(2, 3).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(0, 0).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(0, 1).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(0, 2).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(0, 3).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(1, 0).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(1, 2).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(1, 3).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(2, 0).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(2, 1).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(2, 2).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(2, 3).value()).isEqualTo(MINE_ADJACENT_0);
     }
 
     @Test
@@ -78,19 +77,18 @@ public class MineSweeperTest {
 
         mineSweeper.uncoverCellAt(1, 1);
 
-        assertThat(mineSweeper.isWon()).isEqualTo(false);
-        assertThat(mineSweeper.cellAt(0, 0).value()).isEqualTo(CellValue.COVERED);
-        assertThat(mineSweeper.cellAt(0, 1).value()).isEqualTo(CellValue.COVERED);
-        assertThat(mineSweeper.cellAt(0, 2).value()).isEqualTo(CellValue.COVERED);
-        assertThat(mineSweeper.cellAt(0, 3).value()).isEqualTo(CellValue.COVERED);
-        assertThat(mineSweeper.cellAt(1, 0).value()).isEqualTo(CellValue.MINED);
-        assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo(CellValue.MINE_ADJACENT_1);
-        assertThat(mineSweeper.cellAt(1, 2).value()).isEqualTo(CellValue.COVERED);
-        assertThat(mineSweeper.cellAt(1, 3).value()).isEqualTo(CellValue.COVERED);
-        assertThat(mineSweeper.cellAt(2, 0).value()).isEqualTo(CellValue.COVERED);
-        assertThat(mineSweeper.cellAt(2, 1).value()).isEqualTo(CellValue.COVERED);
-        assertThat(mineSweeper.cellAt(2, 2).value()).isEqualTo(CellValue.COVERED);
-        assertThat(mineSweeper.cellAt(2, 3).value()).isEqualTo(CellValue.COVERED);
+        assertThat(mineSweeper.cellAt(0, 0).value()).isEqualTo(COVERED);
+        assertThat(mineSweeper.cellAt(0, 1).value()).isEqualTo(COVERED);
+        assertThat(mineSweeper.cellAt(0, 2).value()).isEqualTo(COVERED);
+        assertThat(mineSweeper.cellAt(0, 3).value()).isEqualTo(COVERED);
+        assertThat(mineSweeper.cellAt(1, 0).value()).isEqualTo(MINED);
+        assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo(MINE_ADJACENT_1);
+        assertThat(mineSweeper.cellAt(1, 2).value()).isEqualTo(COVERED);
+        assertThat(mineSweeper.cellAt(1, 3).value()).isEqualTo(COVERED);
+        assertThat(mineSweeper.cellAt(2, 0).value()).isEqualTo(COVERED);
+        assertThat(mineSweeper.cellAt(2, 1).value()).isEqualTo(COVERED);
+        assertThat(mineSweeper.cellAt(2, 2).value()).isEqualTo(COVERED);
+        assertThat(mineSweeper.cellAt(2, 3).value()).isEqualTo(COVERED);
     }
 
     @Test
@@ -104,19 +102,18 @@ public class MineSweeperTest {
 
         mineSweeper.uncoverCellAt(1, 2);
 
-        assertThat(mineSweeper.isWon()).isEqualTo(false);
-        assertThat(mineSweeper.cellAt(0, 0).value()).isEqualTo(CellValue.COVERED);
-        assertThat(mineSweeper.cellAt(0, 1).value()).isEqualTo(CellValue.MINE_ADJACENT_1);
-        assertThat(mineSweeper.cellAt(0, 2).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(0, 3).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(1, 0).value()).isEqualTo(CellValue.MINED);
-        assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo(CellValue.MINE_ADJACENT_1);
-        assertThat(mineSweeper.cellAt(1, 2).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(1, 3).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(2, 0).value()).isEqualTo(CellValue.COVERED);
-        assertThat(mineSweeper.cellAt(2, 1).value()).isEqualTo(CellValue.MINE_ADJACENT_1);
-        assertThat(mineSweeper.cellAt(2, 2).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
-        assertThat(mineSweeper.cellAt(2, 3).value()).isEqualTo(CellValue.MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(0, 0).value()).isEqualTo(COVERED);
+        assertThat(mineSweeper.cellAt(0, 1).value()).isEqualTo(MINE_ADJACENT_1);
+        assertThat(mineSweeper.cellAt(0, 2).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(0, 3).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(1, 0).value()).isEqualTo(MINED);
+        assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo(MINE_ADJACENT_1);
+        assertThat(mineSweeper.cellAt(1, 2).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(1, 3).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(2, 0).value()).isEqualTo(COVERED);
+        assertThat(mineSweeper.cellAt(2, 1).value()).isEqualTo(MINE_ADJACENT_1);
+        assertThat(mineSweeper.cellAt(2, 2).value()).isEqualTo(MINE_ADJACENT_0);
+        assertThat(mineSweeper.cellAt(2, 3).value()).isEqualTo(MINE_ADJACENT_0);
     }
 
     @Test
@@ -130,16 +127,17 @@ public class MineSweeperTest {
 
         mineSweeper.uncoverCellAt(1, 1);
 
-        assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo(CellValue.MINE_ADJACENT_8);
+        assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo(MINE_ADJACENT_8);
     }
 
     @Test
-    void uncovering_a_mine_terminates_the_game() {
+    void terminate_and_loose_the_game_with_single_mined_cell() {
         String[][] grid = {{"X"}};
         MineSweeper mineSweeper = new MineSweeper(grid);
 
         mineSweeper.uncoverCellAt(0, 0);
 
         assertThat(mineSweeper.isTerminated()).isEqualTo(true);
+        assertThat(mineSweeper.isWon()).isEqualTo(false);
     }
 }
