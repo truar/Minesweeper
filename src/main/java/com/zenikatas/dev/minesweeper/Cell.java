@@ -1,10 +1,10 @@
 package com.zenikatas.dev.minesweeper;
 
 public class Cell {
-    private String value;
+    private CellValue value;
 
     public Cell(String initialValue) {
-        this.value = initialValue;
+        this.value = CellValue.of(initialValue);
     }
 
     public boolean isUncovered() {
@@ -12,18 +12,18 @@ public class Cell {
     }
 
     public boolean isCovered() {
-        return value.equals("");
+        return value == CellValue.COVERED;
     }
 
     public void updateValue(int countNumberOfAdjacentMine) {
-        value = countNumberOfAdjacentMine + "";
+        value = CellValue.of(countNumberOfAdjacentMine);
     }
 
     public boolean isAMine() {
-        return value.equals("X");
+        return value == CellValue.MINED;
     }
 
-    public String value() {
+    public CellValue value() {
         return value;
     }
 

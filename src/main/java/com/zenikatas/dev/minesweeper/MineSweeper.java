@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 public class MineSweeper {
     private final Cell[][] grid;
+    private boolean isMineUncovered = false;
 
     public MineSweeper(String[][] grid) {
         this.grid = new Cell[grid.length][grid[0].length];
@@ -23,9 +24,8 @@ public class MineSweeper {
                 .allMatch(Cell::isUncovered);
     }
 
-    private Stream<Cell> allCells() {
-        return Arrays.stream(grid)
-                .flatMap(Arrays::stream);
+    public boolean isTerminated() {
+        return isMineUncovered || isWon();
     }
 
     public Cell cellAt(int y, int x) {
@@ -35,9 +35,15 @@ public class MineSweeper {
     public void uncoverCellAt(int y, int x) {
         if (cellAt(y, x).isCovered()) {
             uncoverAdjacentCells(y, x);
+        } else {
+            isMineUncovered = true;
         }
     }
 
+    private Stream<Cell> allCells() {
+        return Arrays.stream(grid)
+                .flatMap(Arrays::stream);
+    }
 
     private void uncoverAdjacentCells(int y, int x) {
         if (isCellOnTheEdge(y, x)) {
@@ -63,17 +69,17 @@ public class MineSweeper {
     }
 
     private int countNumberOfAdjacentMine(int y, int x) {
-        return (int) getAdjacentCells(y, x).stream()
+        return (int) adjacentCells(y, x).stream()
                 .filter(Cell::isAMine)
                 .count();
     }
 
     private boolean isAdjacentCellsContainAMine(int y, int x) {
-        return getAdjacentCells(y, x).stream()
+        return adjacentCells(y, x).stream()
                 .anyMatch(Cell::isAMine);
     }
 
-    private List<Cell> getAdjacentCells(int y, int x) {
+    private List<Cell> adjacentCells(int y, int x) {
         List<Cell> adjacentCells = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -86,10 +92,6 @@ public class MineSweeper {
         return adjacentCells;
     }
 
-    private int getRowsLength() {
-        return grid.length;
-    }
-
     private boolean isCellOnTheEdge(int y, int x) {
         return x < 0
                 || y < 0
@@ -97,11 +99,11 @@ public class MineSweeper {
                 || y >= getRowsLength();
     }
 
-    private int getColumnsLength() {
-        return grid[0].length;
+    private int getRowsLength() {
+        return grid.length;
     }
 
-    public boolean isTerminated() {
-        return false;
+    private int getColumnsLength() {
+        return grid[0].length;
     }
 }
