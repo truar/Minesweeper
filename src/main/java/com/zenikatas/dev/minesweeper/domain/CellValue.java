@@ -15,7 +15,11 @@ public enum CellValue {
     MINE_ADJACENT_8("8");
 
 
-    private String value;
+    public String getValue() {
+        return value;
+    }
+
+    private final String value;
 
     CellValue(String value) {
         this.value = value;

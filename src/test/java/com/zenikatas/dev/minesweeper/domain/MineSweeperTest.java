@@ -131,6 +131,22 @@ public class MineSweeperTest {
     }
 
     @Test
+    void uncovering_all_not_mined_cell_win_the_game() {
+        String[][] grid = {
+                {"X", "X", "X"},
+                {"X", "", "X"},
+                {"X", "X", "X"}
+        };
+        MineSweeper mineSweeper = new MineSweeper(grid);
+
+        mineSweeper.uncoverCellAt(1, 1);
+
+        assertThat(mineSweeper.isTerminated()).isEqualTo(true);
+        assertThat(mineSweeper.isWon()).isEqualTo(true);
+        assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo(MINE_ADJACENT_8);
+    }
+
+    @Test
     void terminate_and_loose_the_game_with_single_mined_cell() {
         String[][] grid = {{"X"}};
         MineSweeper mineSweeper = new MineSweeper(grid);

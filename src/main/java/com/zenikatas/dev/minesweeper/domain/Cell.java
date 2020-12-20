@@ -2,21 +2,27 @@ package com.zenikatas.dev.minesweeper.domain;
 
 public class Cell {
     private CellValue value;
+    private boolean isUncovered = false;
 
     public Cell(String initialValue) {
         this.value = CellValue.of(initialValue);
     }
 
     public boolean isUncovered() {
-        return !isCovered();
+        return isUncovered;
     }
 
     public boolean isCovered() {
-        return value == CellValue.COVERED;
+        return !isUncovered;
     }
 
-    public void updateValue(int countNumberOfAdjacentMine) {
+    public void uncover(int countNumberOfAdjacentMine) {
         value = CellValue.of(countNumberOfAdjacentMine);
+        isUncovered = true;
+    }
+
+    public void reveal() {
+        isUncovered = true;
     }
 
     public boolean isAMine() {

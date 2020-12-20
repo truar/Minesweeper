@@ -25,6 +25,7 @@ public class MineSweeper {
 
     public boolean isWon() {
         return !isMineUncovered && allCells()
+                .filter(cell -> !cell.isAMine())
                 .allMatch(Cell::isUncovered);
     }
 
@@ -37,7 +38,7 @@ public class MineSweeper {
     }
 
     public void uncoverCellAt(int row, int col) {
-        if (cellAt(row, col).isCovered()) {
+        if (cellAt(row, col).isCovered() && !cellAt(row, col).isAMine()) {
             uncoverAdjacentCells(row, col);
         } else {
             isMineUncovered = true;
@@ -65,7 +66,7 @@ public class MineSweeper {
             return;
         }
 
-        cellAt(row, col).updateValue(countNumberOfAdjacentMine(row, col));
+        cellAt(row, col).uncover(countNumberOfAdjacentMine(row, col));
 
         if (isAdjacentCellsContainAMine(row, col)) {
             return;
@@ -109,5 +110,11 @@ public class MineSweeper {
                 || row < 0
                 || col >= columnsLength()
                 || row >= rowsLength();
+    }
+
+    public void reveal() {
+        allCells()
+                .filter(Cell::isAMine)
+                .forEach(Cell::reveal);
     }
 }
