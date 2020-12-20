@@ -131,4 +131,14 @@ public class MineSweeperTest {
 
         assertThat(mineSweeper.cellAt(1, 1).value()).isEqualTo("8");
     }
+
+    @Test
+    void uncovering_a_mine_terminates_the_game() {
+        String[][] grid = {{"X"}};
+        MineSweeper mineSweeper = new MineSweeper(grid);
+
+        mineSweeper.uncoverCellAt(0, 0);
+
+        assertThat(mineSweeper.isTerminated()).isEqualTo(true);
+    }
 }

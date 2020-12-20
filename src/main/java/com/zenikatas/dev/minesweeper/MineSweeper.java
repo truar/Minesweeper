@@ -100,4 +100,8 @@ public class MineSweeper {
     private int getColumnsLength() {
         return grid[0].length;
     }
+
+    public boolean isTerminated() {
+        return false;
+    }
 }
