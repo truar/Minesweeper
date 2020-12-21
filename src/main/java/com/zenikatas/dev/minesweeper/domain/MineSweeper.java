@@ -15,18 +15,11 @@ public class MineSweeper {
         initializeGrid(grid);
     }
 
-    private void initializeGrid(String[][] grid) {
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                this.grid[i][j] = new Cell(grid[i][j]);
-            }
-        }
-    }
-
     public boolean isWon() {
-        return !isMineUncovered && allCells()
-                .filter(cell -> !cell.isAMine())
-                .allMatch(Cell::isUncovered);
+        return !isMineUncovered &&
+                allCells()
+                        .filter(cell -> !cell.isAMine())
+                        .allMatch(Cell::isUncovered);
     }
 
     public boolean isTerminated() {
@@ -38,10 +31,10 @@ public class MineSweeper {
     }
 
     public void uncoverCellAt(int row, int col) {
-        if (cellAt(row, col).isCovered() && !cellAt(row, col).isAMine()) {
-            uncoverAdjacentCells(row, col);
-        } else {
+        if (cellAt(row, col).isAMine()) {
             isMineUncovered = true;
+        } else {
+            uncoverAdjacentCells(row, col);
         }
     }
 
@@ -54,9 +47,23 @@ public class MineSweeper {
     }
 
     public int numberOfMine() {
-        return (int) allCells()
-                .filter(Cell::isAMine)
+        return (int) allMines()
                 .count();
+    }
+
+    public void revealMines() {
+        if (isTerminated()) {
+            allMines()
+                    .forEach(Cell::reveal);
+        }
+    }
+
+    private void initializeGrid(String[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                this.grid[i][j] = new Cell(grid[i][j]);
+            }
+        }
     }
 
     private Stream<Cell> allCells() {
@@ -118,11 +125,8 @@ public class MineSweeper {
                 || row >= rowsLength();
     }
 
-    public void reveal() {
-        if (isTerminated()) {
-            allCells()
-                    .filter(Cell::isAMine)
-                    .forEach(Cell::reveal);
-        }
+    private Stream<Cell> allMines() {
+        return allCells()
+                .filter(Cell::isAMine);
     }
 }

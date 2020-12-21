@@ -174,7 +174,7 @@ public class MineSweeperTest {
         mineSweeper.uncoverCellAt(0, 0);
 
         assertThat(mineSweeper.isTerminated()).isEqualTo(true);
-        mineSweeper.reveal();
+        mineSweeper.revealMines();
 
         assertThat(mineSweeper.cellAt(0, 0).isUncovered()).isEqualTo(true);
         assertThat(mineSweeper.cellAt(0, 1).isCovered()).isEqualTo(true);
@@ -186,7 +186,7 @@ public class MineSweeperTest {
         MineSweeper mineSweeper = new MineSweeper(grid);
 
         assertThat(mineSweeper.isTerminated()).isEqualTo(false);
-        mineSweeper.reveal();
+        mineSweeper.revealMines();
 
         assertThat(mineSweeper.cellAt(0, 0).isUncovered()).isEqualTo(false);
         assertThat(mineSweeper.cellAt(0, 1).isCovered()).isEqualTo(true);
