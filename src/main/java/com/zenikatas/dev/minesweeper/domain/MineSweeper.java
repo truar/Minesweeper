@@ -11,19 +11,23 @@ public class MineSweeper {
 
     public MineSweeper(String[][] grid) {
         this.grid = new Cell[grid.length][grid[0].length];
-
         initializeGrid(grid);
     }
 
     public boolean isWon() {
-        return !isMineUncovered &&
-                allCells()
-                        .filter(cell -> !cell.isAMine())
-                        .allMatch(Cell::isUncovered);
+        return !isMineUncovered && allCellsExceptMineAreUncovered();
     }
 
     public boolean isTerminated() {
         return isMineUncovered || isWon();
+    }
+
+    public int rowsLength() {
+        return grid.length;
+    }
+
+    public int columnsLength() {
+        return grid[0].length;
     }
 
     public Cell cellAt(int row, int col) {
@@ -38,23 +42,13 @@ public class MineSweeper {
         }
     }
 
-    public int rowsLength() {
-        return grid.length;
-    }
-
-    public int columnsLength() {
-        return grid[0].length;
-    }
-
     public int numberOfMine() {
-        return (int) allMines()
-                .count();
+        return (int) allMines().count();
     }
 
     public void revealMines() {
         if (isTerminated()) {
-            allMines()
-                    .forEach(Cell::reveal);
+            allMines().forEach(Cell::reveal);
         }
     }
 
@@ -64,6 +58,17 @@ public class MineSweeper {
                 this.grid[i][j] = new Cell(grid[i][j]);
             }
         }
+    }
+
+    private boolean allCellsExceptMineAreUncovered() {
+        return allCells()
+                .filter(cell -> !cell.isAMine())
+                .allMatch(Cell::isUncovered);
+    }
+
+    private Stream<Cell> allMines() {
+        return allCells()
+                .filter(Cell::isAMine);
     }
 
     private Stream<Cell> allCells() {
@@ -79,7 +84,8 @@ public class MineSweeper {
             return;
         }
 
-        cellAt(row, col).uncover(countNumberOfAdjacentMine(row, col));
+        int countNumberOfAdjacentMine = countNumberOfAdjacentMine(row, col);
+        cellAt(row, col).uncover(countNumberOfAdjacentMine);
 
         if (isAdjacentCellsContainAMine(row, col)) {
             return;
@@ -123,10 +129,5 @@ public class MineSweeper {
                 || row < 0
                 || col >= columnsLength()
                 || row >= rowsLength();
-    }
-
-    private Stream<Cell> allMines() {
-        return allCells()
-                .filter(Cell::isAMine);
     }
 }
