@@ -156,4 +156,39 @@ public class MineSweeperTest {
         assertThat(mineSweeper.isTerminated()).isEqualTo(true);
         assertThat(mineSweeper.isWon()).isEqualTo(false);
     }
+
+    @Test
+    void all_cells_are_covered_by_default() {
+        String[][] grid = {{"X", ""}};
+        MineSweeper mineSweeper = new MineSweeper(grid);
+
+        assertThat(mineSweeper.cellAt(0, 0).isCovered()).isEqualTo(true);
+        assertThat(mineSweeper.cellAt(0, 1).isCovered()).isEqualTo(true);
+    }
+
+    @Test
+    void reveal_the_mine_when_the_game_is_terminated() {
+        String[][] grid = {{"X", ""}};
+        MineSweeper mineSweeper = new MineSweeper(grid);
+
+        mineSweeper.uncoverCellAt(0, 0);
+
+        assertThat(mineSweeper.isTerminated()).isEqualTo(true);
+        mineSweeper.reveal();
+
+        assertThat(mineSweeper.cellAt(0, 0).isUncovered()).isEqualTo(true);
+        assertThat(mineSweeper.cellAt(0, 1).isCovered()).isEqualTo(true);
+    }
+
+    @Test
+    void do_not_reveal_the_mine_when_the_game_is_not_terminated() {
+        String[][] grid = {{"X", ""}};
+        MineSweeper mineSweeper = new MineSweeper(grid);
+
+        assertThat(mineSweeper.isTerminated()).isEqualTo(false);
+        mineSweeper.reveal();
+
+        assertThat(mineSweeper.cellAt(0, 0).isUncovered()).isEqualTo(false);
+        assertThat(mineSweeper.cellAt(0, 1).isCovered()).isEqualTo(true);
+    }
 }

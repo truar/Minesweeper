@@ -113,8 +113,10 @@ public class MineSweeper {
     }
 
     public void reveal() {
-        allCells()
-                .filter(Cell::isAMine)
-                .forEach(Cell::reveal);
+        if (isTerminated()) {
+            allCells()
+                    .filter(Cell::isAMine)
+                    .forEach(Cell::reveal);
+        }
     }
 }
