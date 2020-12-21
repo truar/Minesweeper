@@ -1,10 +1,12 @@
 package com.zenikatas.dev.minesweeper.domain;
 
-import java.util.Random;
+import java.util.*;
 
 public class RandomGridGenerator {
 
-    public static String[][] generate(int rowLength, int colLength, int mineNumber) {
+    private Map<Position, Boolean> positionCouple = new HashMap<>();
+
+    public String[][] generate(int rowLength, int colLength, int mineNumber) {
         String[][] grid = new String[rowLength][colLength];
 
         for (int i = 0; i < grid.length; i++) {
@@ -14,13 +16,50 @@ public class RandomGridGenerator {
         }
 
         Random random = new Random();
-        for(int i = 1; i <= mineNumber; i++) {
-            int randomRow = random.nextInt(rowLength);
-            int randomCol = random.nextInt(colLength);
+        for (int i = 1; i <= mineNumber; i++) {
+            int randomRow = 0;
+            int randomCol = 0;
+            while (true) {
+                randomRow = random.nextInt(rowLength);
+                randomCol = random.nextInt(colLength);
 
-            grid[randomRow][randomCol] = "X";
+                if (coupleRowColumnIsUnique(randomRow, randomCol)) {
+                    positionCouple.put(new Position(randomRow, randomCol), true);
+                    grid[randomRow][randomCol] = "X";
+                    break;
+                }
+            }
         }
 
         return grid;
+    }
+
+    private boolean coupleRowColumnIsUnique(int randomRow, int randomCol) {
+        return !positionCouple.containsKey(new Position(randomRow, randomCol));
+    }
+
+    private class Position {
+        private final int randomRow;
+        private final int randomCol;
+
+        public Position(int randomRow, int randomCol) {
+
+            this.randomRow = randomRow;
+            this.randomCol = randomCol;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Position position = (Position) o;
+            return randomRow == position.randomRow &&
+                    randomCol == position.randomCol;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(randomRow, randomCol);
+        }
     }
 }

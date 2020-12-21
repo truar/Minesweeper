@@ -53,6 +53,12 @@ public class MineSweeper {
         return grid[0].length;
     }
 
+    public int numberOfMine() {
+        return (int) allCells()
+                .filter(Cell::isAMine)
+                .count();
+    }
+
     private Stream<Cell> allCells() {
         return Arrays.stream(grid)
                 .flatMap(Arrays::stream);

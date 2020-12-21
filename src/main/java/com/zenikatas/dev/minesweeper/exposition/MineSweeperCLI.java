@@ -43,7 +43,7 @@ public class MineSweeperCLI {
     }
 
     private void initializeGame() {
-        String[][] grid = RandomGridGenerator.generate(rowLength, colLength, mineNumber);
+        String[][] grid = new RandomGridGenerator().generate(rowLength, colLength, mineNumber);
         mineSweeper = new MineSweeper(grid);
     }
 
