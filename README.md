@@ -35,14 +35,14 @@ The game ends when there is no more non-mined cell to uncover or the player unco
 java -jar target/minesweeper-1.0-SNAPSHOT.jar
 ```
 
-## Quick explanation
+# Quick explanation
 
 * The `MineSweeper` class is my aggregate root. It manages a grid (Array of Array of `Cell`). 
 * As we are in a finite world, I created the `CellValue` enum, in order to enforce Checks on cell values update.
 
 ## Miscellaneous
 
-* The game asked for the number of row, columns and the number of mine. 
+* The game asks for the number of row, columns and the number of mine. 
 * There is no check based on your input, so please respect what the program asks for.
 
 ## Improvements and questions
