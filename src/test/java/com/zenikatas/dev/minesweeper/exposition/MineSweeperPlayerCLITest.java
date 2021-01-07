@@ -14,6 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class MineSweeperPlayerCLITest {
 
+    private final static String LINE_SEPARATOR = System.lineSeparator();
+
     @Test
     void can_play_a_game_using_the_console() {
         String[][] grid = {
@@ -21,45 +23,46 @@ class MineSweeperPlayerCLITest {
                 {"", "X", ""},
                 {"", "X", ""},
         };
-        ByteArrayOutputStream outputStream = redirectStandardOuputToString();
+        ByteArrayOutputStream outputStream = redirectStandardOutputToString();
 
         List<String> onlyCorrectMoves = List.of(
-                "0\n0",
-                "0\n1",
-                "0\n2",
-                "1\n0",
-                "1\n2",
-                "2\n0",
-                "2\n2");
+                at(0, 0),
+                at(0, 1),
+                at(0, 2),
+                at(1, 0),
+                at(1, 2),
+                at(2, 0),
+                at(2, 2)
+        );
         Scanner scanner = simulateListOfMoves(onlyCorrectMoves);
         MineSweeperPlayerCLI player = new MineSweeperPlayerCLI(grid, scanner);
 
         player.runGame();
 
         String currentOutput = outputStream.toString();
-        assertThat(currentOutput).contains("? | ? | ?\n? | ? | ?\n? | ? | ?\n");
-        assertThat(currentOutput).contains("1 | ? | ?\n? | ? | ?\n? | ? | ?\n");
-        assertThat(currentOutput).contains("1 | 1 | ?\n? | ? | ?\n? | ? | ?\n");
-        assertThat(currentOutput).contains("1 | 1 | 1\n? | ? | ?\n? | ? | ?\n");
-        assertThat(currentOutput).contains("1 | 1 | 1\n2 | ? | ?\n? | ? | ?\n");
-        assertThat(currentOutput).contains("1 | 1 | 1\n2 | ? | 2\n? | ? | ?\n");
-        assertThat(currentOutput).contains("1 | 1 | 1\n2 | ? | 2\n2 | ? | ?\n");
-        assertThat(currentOutput).contains("1 | 1 | 1\n2 | X | 2\n2 | X | 2\n");
+        assertThat(currentOutput).contains(gridWithRows("? | ? | ?", "? | ? | ?", "? | ? | ?"));
+        assertThat(currentOutput).contains(gridWithRows("1 | ? | ?", "? | ? | ?", "? | ? | ?"));
+        assertThat(currentOutput).contains(gridWithRows("1 | 1 | ?", "? | ? | ?", "? | ? | ?"));
+        assertThat(currentOutput).contains(gridWithRows("1 | 1 | 1", "? | ? | ?", "? | ? | ?"));
+        assertThat(currentOutput).contains(gridWithRows("1 | 1 | 1", "2 | ? | ?", "? | ? | ?"));
+        assertThat(currentOutput).contains(gridWithRows("1 | 1 | 1", "2 | ? | 2", "? | ? | ?"));
+        assertThat(currentOutput).contains(gridWithRows("1 | 1 | 1", "2 | ? | 2", "2 | ? | ?"));
+        assertThat(currentOutput).contains(gridWithRows("1 | 1 | 1", "2 | X | 2", "2 | X | 2"));
         assertThat(currentOutput).contains("you won");
     }
 
     @Test
-    void loose_a_game_with_the_console() {
+    void can_lose_a_game_with_the_console() {
         String[][] grid = {
                 {"", "", ""},
                 {"", "X", ""},
                 {"", "X", ""},
         };
-        ByteArrayOutputStream outputStream = redirectStandardOuputToString();
+        ByteArrayOutputStream outputStream = redirectStandardOutputToString();
 
-        String minePosition = "1\n1";
+        String minePosition = at(1, 1);
         List<String> moves = List.of(
-                "0\n0",
+                at(0, 0),
                 minePosition);
         Scanner scanner = simulateListOfMoves(moves);
         MineSweeperPlayerCLI player = new MineSweeperPlayerCLI(grid, scanner);
@@ -67,21 +70,29 @@ class MineSweeperPlayerCLITest {
         player.runGame();
 
         String currentOutput = outputStream.toString();
-        assertThat(currentOutput).contains("? | ? | ?\n? | ? | ?\n? | ? | ?\n");
-        assertThat(currentOutput).contains("1 | ? | ?\n? | X | ?\n? | X | ?\n");
+        assertThat(currentOutput).contains(gridWithRows("? | ? | ?", "? | ? | ?", "? | ? | ?"));
+        assertThat(currentOutput).contains(gridWithRows("1 | ? | ?", "? | X | ?", "? | X | ?"));
         assertThat(currentOutput).contains("you lost");
     }
 
+    private String at(int x, int y) {
+        return x + LINE_SEPARATOR + y;
+    }
+
     private Scanner simulateListOfMoves(List<String> moves) {
-        String allMoves = String.join("\n", moves);
+        String allMoves = String.join(LINE_SEPARATOR, moves);
         InputStream inputStream = new ByteArrayInputStream(allMoves.getBytes(StandardCharsets.UTF_8));
         return new Scanner(inputStream);
     }
 
-    private ByteArrayOutputStream redirectStandardOuputToString() {
+    private ByteArrayOutputStream redirectStandardOutputToString() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         System.setOut(ps);
         return baos;
+    }
+
+    private String gridWithRows(String... rows) {
+        return String.join(LINE_SEPARATOR, rows) + LINE_SEPARATOR;
     }
 }

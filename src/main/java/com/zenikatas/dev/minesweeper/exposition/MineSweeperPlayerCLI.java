@@ -30,7 +30,7 @@ public class MineSweeperPlayerCLI {
         for (int i = 0; i < mineSweeper.rowsLength(); i++) {
             for (int j = 0; j < mineSweeper.columnsLength(); j++) {
                 Cell cell = mineSweeper.cellAt(i, j);
-                if (cell.isUncovered()) {
+                if (cell.isUncovered()) { // TODO this behavior should be encapsulated inside the cell -- no "if" here
                     System.out.print(cell.value().getValue());
                 } else {
                     System.out.print("?");

@@ -9,7 +9,7 @@ public class MineSweeper {
     private final Cell[][] grid;
     private boolean isMineUncovered = false;
 
-    public MineSweeper(String[][] grid) {
+    public MineSweeper(String[][] grid) { // TODO Grid should probably be an object and be passed already formed as an argument here
         this.grid = new Cell[grid.length][grid[0].length];
         initializeGrid(grid);
     }
@@ -31,12 +31,12 @@ public class MineSweeper {
     }
 
     public Cell cellAt(int row, int col) {
-        return grid[row][col];
+        return grid[row][col]; // TODO index check before
     }
 
     public void uncoverCellAt(int row, int col) {
         if (cellAt(row, col).isAMine()) {
-            isMineUncovered = true;
+            isMineUncovered = true; // TODO can we avoid the "if" here and always uncover, then check if value?
         } else {
             uncoverAdjacentCells(row, col);
         }
@@ -84,10 +84,10 @@ public class MineSweeper {
             return;
         }
 
-        int countNumberOfAdjacentMine = countNumberOfAdjacentMine(row, col);
+        int countNumberOfAdjacentMine = countNumberOfAdjacentMine(row, col); // TODO this logic should be inside the cell value
         cellAt(row, col).uncover(countNumberOfAdjacentMine);
 
-        if (isAdjacentCellsContainAMine(row, col)) {
+        if (isAdjacentCellsContainAMine(row, col)) { // TODO Isn't this an expensive way to compute that countNumberOfAdjacentMine != 0 ?
             return;
         }
         uncoverAdjacentCells(row - 1, col - 1);
@@ -100,13 +100,13 @@ public class MineSweeper {
         uncoverAdjacentCells(row + 1, col + 1);
     }
 
-    private int countNumberOfAdjacentMine(int row, int col) {
+    private int countNumberOfAdjacentMine(int row, int col) { // TODO countNumberOfAdjacentMines
         return (int) adjacentCells(row, col).stream()
                 .filter(Cell::isAMine)
                 .count();
     }
 
-    private boolean isAdjacentCellsContainAMine(int row, int col) {
+    private boolean isAdjacentCellsContainAMine(int row, int col) { // TODO useless?
         return adjacentCells(row, col).stream()
                 .anyMatch(Cell::isAMine);
     }
@@ -124,7 +124,7 @@ public class MineSweeper {
         return adjacentCells;
     }
 
-    private boolean isCellOnTheEdge(int row, int col) {
+    private boolean isCellOnTheEdge(int row, int col) { // TODO rename isOutsideGrid()
         return col < 0
                 || row < 0
                 || col >= columnsLength()

@@ -28,11 +28,11 @@ public class MineSweeperCLI {
     }
 
     private void askForGridSize() {
-        System.out.print("Please enter the row length: ");
+        System.out.print("Please enter the number of rows: ");
         rowLength = scanner.nextInt();
-        System.out.print("Please enter the column length: ");
+        System.out.print("Please enter the number of columns: ");
         colLength = scanner.nextInt();
-        System.out.print("Please enter the mine number: ");
+        System.out.print("Please enter the number of mines: ");
         mineNumber = scanner.nextInt();
         System.out.println();
     }
